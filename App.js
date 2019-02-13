@@ -89,8 +89,8 @@ class App extends Component {
 }
 
 export default CodePush({
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-  installMode: codePush.InstallMode.ON_NEXT_RESUME
+  checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME,
+  installMode: CodePush.InstallMode.ON_NEXT_RESUME
 })(App)
 
 const styles = StyleSheet.create({
