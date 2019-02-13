@@ -8,23 +8,81 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import { Platform, StyleSheet, Text, View, Button } from 'react-native';
+import Analytics from 'mobile-center-analytics'
+import Crashes from 'mobile-center-crashes'
+import CodePush from 'react-native-code-push'
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      logs: []
+    }
+  }
+  sendEvent () {
+    Analytics.trackEvent('My Custom Event', {
+      prop1: new Date().getSeconds()
+    })
+  }
+  naviteCrash () {
+    Crashes.generateTestCrash()
+  }
+  jsCrash () {
+    this.func1()
+  }
+  func1 () {
+    this.func2()
+  }
+  func2 () {
+    this.func3()
+  }
+  func3 () {
+    this.func4()
+  }
+  func4 () {
+    this.func5()
+  }
+  func5 () {
+    throw new Error('JS Exception!!!!')
+  }
+  codepushSync () {
+    this.setState({ logs: ['Started at' + new Date().getTime()] })
+    CodePush.sync({
+      updateDialog: true,
+      installMode: CodePush.InstallMode.INMEDIATE
+    }, status => {
+      for (var key in CodePush.SyncStatus) {
+        if (status === CodePush.SyncStatus[key]) {
+          this.setState(prevState => ({ logs: [...prevState.logs, key.replace(/_/g, ' ')] }))
+        }
+      }
+    })
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Button
+          title='Send Event'
+          onPress={() => this.sendEvent()}
+        />
+        <Button
+          title='Native Crasg'
+          onPress={() => this.naviteCrash()}
+        />
+        <Button
+          title='JS Crash'
+          onPress={() => this.jsCrash()}
+        />
+        <Button
+          title='Code Push'
+          onPress={() => this.codepushSync()}
+        />
+        <Text>{JSON.stringify(this.state.logs)}</Text>
       </View>
     );
   }
