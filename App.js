@@ -14,7 +14,7 @@ import Crashes from 'mobile-center-crashes'
 import CodePush from 'react-native-code-push'
 
 
-export default class App extends Component {
+class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -87,6 +87,11 @@ export default class App extends Component {
     );
   }
 }
+
+export default CodePush({
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.ON_NEXT_RESUME
+})(App)
 
 const styles = StyleSheet.create({
   container: {
