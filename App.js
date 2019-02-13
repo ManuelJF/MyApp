@@ -66,6 +66,7 @@ class App extends Component {
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
+        <Text style={styles.codepush}>ADDED WITH CODE PUSH!!!</Text>
         <Button
           title='Send Event'
           onPress={() => this.sendEvent()}
@@ -94,6 +95,10 @@ export default CodePush({
 })(App)
 
 const styles = StyleSheet.create({
+  codepush: {
+    fontSize: 25,
+    textAlign: 'center'
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
