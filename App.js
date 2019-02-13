@@ -71,7 +71,7 @@ export default class App extends Component {
           onPress={() => this.sendEvent()}
         />
         <Button
-          title='Native Crasg'
+          title='Native Crash'
           onPress={() => this.naviteCrash()}
         />
         <Button
